@@ -160,14 +160,17 @@ export async function Log(
 
   // Make the API call
   try {
+    // Format the request payload exactly as expected by the API
+    const payload = {
+      stack,
+      level,
+      package: pkg,
+      message
+    };
+    
     const response = await axios.post<LogResponse>(
       `${baseUrl}/logs`,
-      {
-        stack,
-        level,
-        package: pkg,
-        message
-      },
+      payload,
       {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -185,14 +188,17 @@ export async function Log(
         await authenticate();
         
         // Try the request again with the new token
+        // Format the request payload exactly as expected by the API
+        const payload = {
+          stack,
+          level,
+          package: pkg,
+          message
+        };
+        
         return await axios.post<LogResponse>(
           `${baseUrl}/logs`,
-          {
-            stack,
-            level,
-            package: pkg,
-            message
-          },
+          payload,
           {
             headers: {
               'Authorization': `Bearer ${token}`,
